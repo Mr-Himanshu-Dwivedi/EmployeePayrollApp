@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor  // Generates a no-argument constructor
+@AllArgsConstructor // Generates a constructor with all fields
 @Entity
 @Table(name = "employee")
 public class EmployeeModel {
@@ -16,4 +16,10 @@ public class EmployeeModel {
     private Long id;
     private String name;
     private double salary;
+
+    public EmployeeModel(String name, double salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+
 }
