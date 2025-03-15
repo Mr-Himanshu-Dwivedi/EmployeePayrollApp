@@ -1,5 +1,6 @@
 package com.app.employeeapp.controller;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 import com.app.employeeapp.dto.EmployeeDTO;
@@ -40,18 +41,19 @@ public class EmployeeController {
     }
 
     @PostMapping("/create")
-    public EmployeeModel createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+    public EmployeeModel createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
         log.info("Creating new employee: {}", employeeDTO.getName());
         return service.createEmployee(employeeDTO);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<String> updateEmployee(@PathVariable Long id, @Valid @RequestBody EmployeeDTO employeeDTO) {
         log.info("Updating employee with ID: {}", id);
         Optional<EmployeeModel> updatedEmployee = service.updateEmployee(id, employeeDTO);
         return updatedEmployee.map(emp -> ResponseEntity.ok("Employee updated successfully with ID " + id))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Employee not found with ID " + id));
     }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
